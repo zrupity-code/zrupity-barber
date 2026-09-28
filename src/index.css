@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #141412;
+  --color-bone: #f4f0e8;
+  --color-bone-dim: #e7e1d4;
+  --color-stone: #8f8a7d;
+  --color-stone-dark: #5c584e;
+  --color-copper: #b6884f;
+  --color-copper-soft: #d8b787;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: var(--color-ink);
+  background-image:
+    linear-gradient(rgba(244, 240, 232, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 240, 232, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  animation: ambient-drift 60s linear infinite;
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+@keyframes ambient-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 128px 128px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+}
+
+::selection {
+  background-color: var(--color-copper);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 3px;
+}
+
+/* custom cursor: hidden native cursor only when the custom one is active (desktop, fine pointer) */
+.cursor-active,
+.cursor-active * {
+  cursor: none !important;
+}
+
+.container-edge {
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .container-edge {
+    padding-inline: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .container-edge {
+    padding-inline: 4rem;
+  }
+}
+
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* bandeau défilant de l'accueil */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* carte de contact (Leaflet + OpenStreetMap assombri) */
+.leaflet-container {
+  background: var(--color-ink);
+  font-family: var(--font-sans);
+}
+.shop-map .leaflet-tile-pane {
+  filter: invert(100%) hue-rotate(180deg) brightness(0.9) contrast(0.9) grayscale(0.35);
+}
+.leaflet-control-zoom a {
+  background: var(--color-ink-soft) !important;
+  color: var(--color-bone) !important;
+  border-color: rgba(244, 240, 232, 0.12) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(10, 10, 10, 0.7) !important;
+  color: var(--color-stone) !important;
+}
+.leaflet-control-attribution a {
+  color: var(--color-copper-soft) !important;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--color-ink-soft);
+  color: var(--color-bone);
+  border-radius: 0;
+}
+.shop-marker {
+  position: relative;
+  display: flex;
+  height: 44px;
+  width: 44px;
+  align-items: center;
+  justify-content: center;
+}
+.shop-marker__dot {
+  position: relative;
+  display: flex;
+  height: 30px;
+  width: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--color-copper);
+  color: var(--color-ink);
+  font-size: 15px;
+  box-shadow: 0 0 0 4px rgba(182, 136, 79, 0.3), 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+.shop-marker__pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: rgba(182, 136, 79, 0.35);
+  animation: shop-pulse 2s ease-out infinite;
+}
+@keyframes shop-pulse {
+  from {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
