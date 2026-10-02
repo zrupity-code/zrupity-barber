@@ -1,3 +1,4 @@
+import { PhoneVideo } from '../shared/PhoneVideo'
 import {
   motion,
   useAnimationFrame,
@@ -101,9 +102,9 @@ export function Hero() {
 
   return (
     <section id="top" className="relative flex min-h-[100svh] w-full flex-col overflow-hidden bg-ink text-bone">
-      <div className="relative z-10 grid flex-1 grid-cols-1 lg:grid-cols-12">
+      <div className="relative z-10 grid flex-1 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,0.8fr)]">
         {/* ---------- colonne gauche : texte, défilement normal ---------- */}
-        <div className="container-edge flex flex-col justify-between gap-10 pt-28 pb-10 lg:col-span-7 lg:pr-10">
+        <div className="container-edge flex flex-col justify-between gap-10 pt-28 pb-10 lg:pr-6">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -118,7 +119,7 @@ export function Hero() {
           </motion.div>
 
           <div>
-            <h1 className="font-sans font-extrabold uppercase leading-[0.82] text-[clamp(3.2rem,12vw,9.5rem)] tracking-tight">
+            <h1 className="font-sans font-extrabold uppercase leading-[0.82] text-[clamp(3.2rem,12vw,9.5rem)] lg:text-[clamp(3.2rem,7.2vw,8rem)] tracking-tight">
               <span className="block overflow-hidden">
                 <motion.span custom={0} variants={lineVariants} initial={reduce ? undefined : 'hidden'} animate="visible" className="block">
                   Zrupity
@@ -196,6 +197,16 @@ export function Hero() {
           </motion.div>
         </div>
 
+        {/* ---------- colonne centrale : la pub vidéo dans un téléphone ---------- */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="flex items-center justify-center px-6 pb-16 lg:px-8 lg:pb-0 lg:pt-20"
+        >
+          <PhoneVideo className="w-[min(16rem,70vw)] lg:w-[min(15rem,17vw,calc((100svh-9rem)*9/16))]" />
+        </motion.div>
+
         {/* ---------- colonne droite : zone 360°, la molette fait tourner le prisme ---------- */}
         <div
           ref={zoneRef}
@@ -205,7 +216,7 @@ export function Hero() {
           onPointerCancel={onPointerUp}
           onMouseEnter={() => setActive(true)}
           onMouseLeave={() => setActive(false)}
-          className="relative flex min-h-[520px] touch-pan-y select-none flex-col items-center justify-center overflow-hidden border-t border-dashed border-copper/40 bg-ink-soft/40 lg:col-span-5 lg:min-h-0 lg:border-l lg:border-t-0"
+          className="relative flex min-h-[520px] touch-pan-y select-none flex-col items-center justify-center overflow-hidden border-t border-dashed border-copper/40 bg-ink-soft/40 lg:min-h-0 lg:border-l lg:border-t-0"
           style={{ perspective: '1600px' }}
         >
           {/* étiquette de la zone, centrée en haut */}
