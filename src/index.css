@@ -77,6 +77,13 @@ body {
   cursor: none !important;
 }
 
+/* plein écran (la vidéo de la pub) : le rond personnalisé n'y est pas affiché,
+   on rend donc la souris normale pour garder les contrôles utilisables */
+.cursor-active :fullscreen,
+.cursor-active :fullscreen * {
+  cursor: auto !important;
+}
+
 .container-edge {
   padding-inline: 1.25rem;
 }
